@@ -23,14 +23,17 @@ class AuthMockService implements AuthService {
     _updateUser(_defaultUser);
   });
 
+  @override
   ChatUser? get currentUser {
     return _currentUser;
   }
 
+  @override
   Stream<ChatUser?> get userChanges {
     return _userStream;
   }
 
+  @override
   Future<void> singup(
     String name,
     String email,
@@ -48,10 +51,12 @@ class AuthMockService implements AuthService {
     _updateUser(newUser);
   }
 
+  @override
   Future<void> login(String email, String password) async {
     _updateUser(_users[email]);
   }
 
+  @override
   Future<void> logout() async {
     _updateUser(null);
   }
