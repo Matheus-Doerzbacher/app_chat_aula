@@ -11,16 +11,11 @@ class ChatPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Chat Page',
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ],
+        title: const Text(
+          'Chat Page',
+          style: TextStyle(
+            color: Colors.white,
+          ),
         ),
         actions: [
           DropdownButton(
