@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:app_chat_aula/components/user_image_picker.dart';
 import 'package:app_chat_aula/models/auth_form_data.dart';
 import 'package:flutter/material.dart';
 
@@ -17,11 +20,28 @@ class _AuthFormState extends State<AuthForm> {
   final _formKey = GlobalKey<FormState>();
   final _formData = AuthFormData();
 
+  void _showError(String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(msg),
+        backgroundColor: Theme.of(context).colorScheme.error,
+      ),
+    );
+  }
+
   void _submit() {
     final isValid = _formKey.currentState?.validate() ?? false;
     if (!isValid) return;
 
+    if (_formData.image == null && _formData.isSingup) {
+      return _showError('Imagem não selecionada');
+    }
+
     widget.onSubmit(_formData);
+  }
+
+  void _handleImagePick(File image) {
+    _formData.image = image;
   }
 
   @override
@@ -35,6 +55,10 @@ class _AuthFormState extends State<AuthForm> {
           child: Column(
             children: [
               if (_formData.isSingup)
+                UserImagePicker(
+                  onImagePick: _handleImagePick,
+                ),
+              if (_formData.isSingup)
                 TextFormField(
                   key: const ValueKey('name'),
                   initialValue: _formData.name,
@@ -45,7 +69,6 @@ class _AuthFormState extends State<AuthForm> {
                     if (name.trim().length < 5) {
                       return 'Nome deve ter no minimo 5 caracteres';
                     }
-
                     return null;
                   },
                 ),
