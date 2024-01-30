@@ -27,22 +27,22 @@ class _AuthFormState extends State<AuthForm> {
     _formData.password = '123123';
   }
 
-  void _showError(String msg) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(msg),
-        backgroundColor: Theme.of(context).colorScheme.error,
-      ),
-    );
-  }
+  // void _showError(String msg) {
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(
+  //       content: Text(msg),
+  //       backgroundColor: Theme.of(context).colorScheme.error,
+  //     ),
+  //   );
+  // }
 
   void _submit() {
     final isValid = _formKey.currentState?.validate() ?? false;
     if (!isValid) return;
 
-    if (_formData.image == null && _formData.isSingup) {
-      return _showError('Imagem não selecionada');
-    }
+    // if (_formData.image == null && _formData.isSingup) {
+    //   return _showError('Imagem não selecionada');
+    // }
 
     widget.onSubmit(_formData);
   }
