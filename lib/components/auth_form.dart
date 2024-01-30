@@ -20,6 +20,13 @@ class _AuthFormState extends State<AuthForm> {
   final _formKey = GlobalKey<FormState>();
   final _formData = AuthFormData();
 
+  @override
+  void initState() {
+    super.initState();
+    _formData.email = '@gmail.com';
+    _formData.password = '123123';
+  }
+
   void _showError(String msg) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

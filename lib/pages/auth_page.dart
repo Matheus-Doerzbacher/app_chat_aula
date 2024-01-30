@@ -1,6 +1,6 @@
 import 'package:app_chat_aula/components/auth_form.dart';
 import 'package:app_chat_aula/models/auth_form_data.dart';
-import 'package:flutter/foundation.dart';
+import 'package:app_chat_aula/service/auth/auth_mock_service.dart';
 import 'package:flutter/material.dart';
 
 class AuthPage extends StatefulWidget {
@@ -11,6 +11,7 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
+  @override
   bool _isLoading = false;
 
   Future<void> _handleSubmit(AuthFormData formData) async {
@@ -19,8 +20,15 @@ class _AuthPageState extends State<AuthPage> {
 
       if (formData.isLogin) {
         // Login
+        AuthMockService().login(formData.email, formData.password);
       } else {
         // Singup
+        AuthMockService().singup(
+          formData.name,
+          formData.email,
+          formData.password,
+          formData.image,
+        );
       }
     } catch (e) {
       // Tratar o erro
