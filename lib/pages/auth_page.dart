@@ -20,10 +20,10 @@ class _AuthPageState extends State<AuthPage> {
 
       if (formData.isLogin) {
         // Login
-        AuthService().login(formData.email, formData.password);
+        await AuthService().login(formData.email, formData.password);
       } else {
         // Singup
-        AuthService().singup(
+        await AuthService().singup(
           formData.name,
           formData.email,
           formData.password,
@@ -52,8 +52,9 @@ class _AuthPageState extends State<AuthPage> {
           ),
           if (_isLoading)
             Container(
-              decoration:
-                  const BoxDecoration(color: Color.fromRGBO(0, 0, 0, 50)),
+              decoration: const BoxDecoration(
+                color: Color.fromRGBO(0, 0, 0, 50),
+              ),
               child: const Center(
                 child: CircularProgressIndicator(),
               ),
