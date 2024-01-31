@@ -1,6 +1,5 @@
 import 'package:app_chat_aula/components/messages.dart';
 import 'package:app_chat_aula/components/new_message.dart';
-import 'package:app_chat_aula/models/chat_notification.dart';
 import 'package:app_chat_aula/pages/notification_page.dart';
 import 'package:app_chat_aula/service/auth/auth_service.dart';
 import 'package:app_chat_aula/service/notification/chat_notification_service.dart';
