@@ -1,7 +1,7 @@
-import 'package:app_chat_aula/components/message_bubble.dart';
-import 'package:app_chat_aula/models/chat_message.dart';
-import 'package:app_chat_aula/service/auth/auth_service.dart';
-import 'package:app_chat_aula/service/chat/chat_service.dart';
+import 'package:chat/components/message_bubble.dart';
+import 'package:chat/core/models/chat_message.dart';
+import 'package:chat/core/services/auth/auth_service.dart';
+import 'package:chat/core/services/chat/chat_service.dart';
 import 'package:flutter/material.dart';
 
 class Messages extends StatelessWidget {
@@ -11,23 +11,21 @@ class Messages extends StatelessWidget {
   Widget build(BuildContext context) {
     final currentUser = AuthService().currentUser;
     return StreamBuilder<List<ChatMessage>>(
-      stream: ChatService().messageStream(),
-      builder: (context, snapshot) {
+      stream: ChatService().messagesStream(),
+      builder: (ctx, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(
-            child: Text('Sem Dados. Vamos Conversar?'),
-          );
+          return const Center(child: Text('Sem dados. Vamos conversar?'));
         } else {
           final msgs = snapshot.data!;
           return ListView.builder(
             reverse: true,
             itemCount: msgs.length,
-            itemBuilder: (context, index) => MessageBubble(
-              key: ValueKey(msgs[index].id),
-              message: msgs[index],
-              belongsToCurrentUser: currentUser?.id == msgs[index].userId,
+            itemBuilder: (ctx, i) => MessageBubble(
+              key: ValueKey(msgs[i].id),
+              message: msgs[i],
+              belongsToCurrentUser: currentUser?.id == msgs[i].userId,
             ),
           );
         }

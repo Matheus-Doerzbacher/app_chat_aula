@@ -1,5 +1,5 @@
-import 'package:app_chat_aula/service/auth/auth_service.dart';
-import 'package:app_chat_aula/service/chat/chat_service.dart';
+import 'package:chat/core/services/auth/auth_service.dart';
+import 'package:chat/core/services/chat/chat_service.dart';
 import 'package:flutter/material.dart';
 
 class NewMessage extends StatefulWidget {
@@ -15,6 +15,7 @@ class _NewMessageState extends State<NewMessage> {
 
   Future<void> _sendMessage() async {
     final user = AuthService().currentUser;
+
     if (user != null) {
       await ChatService().save(_message, user);
       _messageController.clear();
@@ -23,32 +24,27 @@ class _NewMessageState extends State<NewMessage> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Row(
-        children: [
-          Expanded(
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10),
-              child: TextField(
-                controller: _messageController,
-                onChanged: (msg) => setState(() => _message = msg),
-                decoration: const InputDecoration(
-                  labelText: 'Enviar Mensagem...',
-                ),
-                onSubmitted: (_) {
-                  if (_message.trim().isNotEmpty) {
-                    _sendMessage();
-                  }
-                },
-              ),
+    return Row(
+      children: [
+        Expanded(
+          child: TextField(
+            controller: _messageController,
+            onChanged: (msg) => setState(() => _message = msg),
+            decoration: const InputDecoration(
+              labelText: 'Enviar mensagem...',
             ),
+            onSubmitted: (_) {
+              if (_message.trim().isNotEmpty) {
+                _sendMessage();
+              }
+            },
           ),
-          IconButton(
-            onPressed: _message.trim().isEmpty ? null : _sendMessage,
-            icon: const Icon(Icons.send),
-          ),
-        ],
-      ),
+        ),
+        IconButton(
+          icon: const Icon(Icons.send),
+          onPressed: _message.trim().isEmpty ? null : _sendMessage,
+        ),
+      ],
     );
   }
 }

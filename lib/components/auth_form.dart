@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:app_chat_aula/components/user_image_picker.dart';
-import 'package:app_chat_aula/models/auth_form_data.dart';
+import 'package:chat/components/user_image_picker.dart';
+import 'package:chat/core/models/auth_form_data.dart';
 import 'package:flutter/material.dart';
 
 class AuthForm extends StatefulWidget {
@@ -20,35 +20,28 @@ class _AuthFormState extends State<AuthForm> {
   final _formKey = GlobalKey<FormState>();
   final _formData = AuthFormData();
 
-  @override
-  void initState() {
-    super.initState();
-    _formData.email = '@gmail.com';
-    _formData.password = '123123';
+  void _handleImagePick(File image) {
+    _formData.image = image;
   }
 
-  // void _showError(String msg) {
-  //   ScaffoldMessenger.of(context).showSnackBar(
-  //     SnackBar(
-  //       content: Text(msg),
-  //       backgroundColor: Theme.of(context).colorScheme.error,
-  //     ),
-  //   );
-  // }
+  void _showError(String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(msg),
+        backgroundColor: Theme.of(context).errorColor,
+      ),
+    );
+  }
 
   void _submit() {
     final isValid = _formKey.currentState?.validate() ?? false;
     if (!isValid) return;
 
-    // if (_formData.image == null && _formData.isSingup) {
-    //   return _showError('Imagem não selecionada');
-    // }
+    if (_formData.image == null && _formData.isSignup) {
+      return _showError('Imagem não selecionada!');
+    }
 
     widget.onSubmit(_formData);
-  }
-
-  void _handleImagePick(File image) {
-    _formData.image = image;
   }
 
   @override
@@ -61,20 +54,20 @@ class _AuthFormState extends State<AuthForm> {
           key: _formKey,
           child: Column(
             children: [
-              if (_formData.isSingup)
+              if (_formData.isSignup)
                 UserImagePicker(
                   onImagePick: _handleImagePick,
                 ),
-              if (_formData.isSingup)
+              if (_formData.isSignup)
                 TextFormField(
                   key: const ValueKey('name'),
                   initialValue: _formData.name,
                   onChanged: (name) => _formData.name = name,
                   decoration: const InputDecoration(labelText: 'Nome'),
-                  validator: (nameValidation) {
-                    final name = nameValidation ?? '';
+                  validator: (localName) {
+                    final name = localName ?? '';
                     if (name.trim().length < 5) {
-                      return 'Nome deve ter no minimo 5 caracteres';
+                      return 'Nome deve ter no mínimo 5 caracteres.';
                     }
                     return null;
                   },
@@ -84,24 +77,24 @@ class _AuthFormState extends State<AuthForm> {
                 initialValue: _formData.email,
                 onChanged: (email) => _formData.email = email,
                 decoration: const InputDecoration(labelText: 'E-mail'),
-                validator: (emailValidation) {
-                  final email = emailValidation ?? '';
+                validator: (localEmail) {
+                  final email = localEmail ?? '';
                   if (!email.contains('@')) {
-                    return 'E-mail informado não é válido';
+                    return 'E-mail nformado não é válido.';
                   }
                   return null;
                 },
               ),
               TextFormField(
-                key: const ValueKey('senha'),
+                key: const ValueKey('password'),
                 initialValue: _formData.password,
                 onChanged: (password) => _formData.password = password,
                 obscureText: true,
                 decoration: const InputDecoration(labelText: 'Senha'),
-                validator: (passwordValidation) {
-                  final password = passwordValidation ?? '';
+                validator: (localPassword) {
+                  final password = localPassword ?? '';
                   if (password.length < 6) {
-                    return 'Senha deve ter no minimo 6 caracteres';
+                    return 'Nome deve ter no mínimo 6 caracteres.';
                   }
                   return null;
                 },
@@ -112,14 +105,16 @@ class _AuthFormState extends State<AuthForm> {
                 child: Text(_formData.isLogin ? 'Entrar' : 'Cadastrar'),
               ),
               TextButton(
-                child: Text(_formData.isLogin
-                    ? 'Criar uma nova conta?'
-                    : 'Já passui conta?'),
                 onPressed: () {
                   setState(() {
                     _formData.toggleAuthMode();
                   });
                 },
+                child: Text(
+                  _formData.isLogin
+                      ? 'Criar uma nova conta?'
+                      : 'Já possui conta?',
+                ),
               ),
             ],
           ),

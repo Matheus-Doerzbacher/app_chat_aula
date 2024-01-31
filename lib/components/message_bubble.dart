@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:app_chat_aula/models/chat_message.dart';
+import 'package:chat/core/models/chat_message.dart';
 import 'package:flutter/material.dart';
 
 class MessageBubble extends StatelessWidget {
@@ -9,14 +9,15 @@ class MessageBubble extends StatelessWidget {
   final bool belongsToCurrentUser;
 
   const MessageBubble({
-    super.key,
     required this.message,
     required this.belongsToCurrentUser,
+    super.key,
   });
 
-  Widget _showUserImage(String imageURL) {
+  Widget _showUserImage(String imageUrl) {
     ImageProvider? provider;
-    final uri = Uri.parse(imageURL);
+    final uri = Uri.parse(imageUrl);
+
     if (uri.path.contains(_defaultImage)) {
       provider = const AssetImage(_defaultImage);
     } else if (uri.scheme.contains('http')) {
@@ -60,10 +61,7 @@ class MessageBubble extends StatelessWidget {
                 vertical: 10,
                 horizontal: 16,
               ),
-              margin: const EdgeInsets.symmetric(
-                vertical: 15,
-                horizontal: 8,
-              ),
+              margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 8),
               child: Column(
                 crossAxisAlignment: belongsToCurrentUser
                     ? CrossAxisAlignment.end
@@ -78,6 +76,8 @@ class MessageBubble extends StatelessWidget {
                   ),
                   Text(
                     message.text,
+                    textAlign:
+                        belongsToCurrentUser ? TextAlign.right : TextAlign.left,
                     style: TextStyle(
                       color: belongsToCurrentUser ? Colors.black : Colors.white,
                     ),
@@ -88,10 +88,11 @@ class MessageBubble extends StatelessWidget {
           ],
         ),
         Positioned(
-            top: 0,
-            right: belongsToCurrentUser ? 165 : null,
-            left: belongsToCurrentUser ? null : 165,
-            child: _showUserImage(message.userImageURL)),
+          top: 0,
+          left: belongsToCurrentUser ? null : 165,
+          right: belongsToCurrentUser ? 165 : null,
+          child: _showUserImage(message.userImageUrl),
+        ),
       ],
     );
   }

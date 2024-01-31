@@ -1,19 +1,18 @@
-import 'dart:async';
 import 'dart:io';
+import 'dart:async';
 import 'dart:math';
-
-import 'package:app_chat_aula/models/chat_user.dart';
-import 'package:app_chat_aula/service/auth/auth_service.dart';
+import 'package:chat/core/models/chat_user.dart';
+import 'package:chat/core/services/auth/auth_service.dart';
 
 class AuthMockService implements AuthService {
   static const _defaultUser = ChatUser(
-    id: '1',
-    name: 'Tabata',
-    email: 'tabata@gmail.com',
-    imageURL: 'assets/images/avatar.png',
+    id: '456',
+    name: 'Ana',
+    email: 'ana@cod3r.com.br',
+    imageUrl: 'assets/images/avatar.png',
   );
 
-  static Map<String, ChatUser> _users = {
+  static final Map<String, ChatUser> _users = {
     _defaultUser.email: _defaultUser,
   };
   static ChatUser? _currentUser;
@@ -34,7 +33,7 @@ class AuthMockService implements AuthService {
   }
 
   @override
-  Future<void> singup(
+  Future<void> signup(
     String name,
     String email,
     String password,
@@ -44,7 +43,7 @@ class AuthMockService implements AuthService {
       id: Random().nextDouble().toString(),
       name: name,
       email: email,
-      imageURL: image?.path ?? 'assets/images/avatar.png',
+      imageUrl: image?.path ?? 'assets/images/avatar.png',
     );
 
     _users.putIfAbsent(email, () => newUser);

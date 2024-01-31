@@ -1,4 +1,4 @@
-import 'package:app_chat_aula/models/chat_notification.dart';
+import 'package:chat/core/models/chat_notification.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +23,7 @@ class ChatNotificationService with ChangeNotifier {
     notifyListeners();
   }
 
-  // Push Notification
+  // Push Notifications
   Future<void> init() async {
     await _configureForeground();
   }
@@ -38,9 +38,10 @@ class ChatNotificationService with ChangeNotifier {
     if (await _isAuthorized) {
       FirebaseMessaging.onMessage.listen((msg) {
         if (msg.notification == null) return;
+
         add(ChatNotification(
-          title: msg.notification!.title ?? 'Não Informado',
-          body: msg.notification!.body ?? 'Não Informado',
+          title: msg.notification!.title ?? 'Não informado!',
+          body: msg.notification!.body ?? 'Não informado!',
         ));
       });
     }

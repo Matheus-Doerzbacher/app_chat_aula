@@ -1,6 +1,6 @@
-import 'package:app_chat_aula/components/auth_form.dart';
-import 'package:app_chat_aula/models/auth_form_data.dart';
-import 'package:app_chat_aula/service/auth/auth_service.dart';
+import 'package:chat/components/auth_form.dart';
+import 'package:chat/core/models/auth_form_data.dart';
+import 'package:chat/core/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class AuthPage extends StatefulWidget {
@@ -15,23 +15,28 @@ class _AuthPageState extends State<AuthPage> {
 
   Future<void> _handleSubmit(AuthFormData formData) async {
     try {
+      if (!mounted) return;
       setState(() => _isLoading = true);
 
       if (formData.isLogin) {
         // Login
-        AuthService().login(formData.email, formData.password);
+        await AuthService().login(
+          formData.email,
+          formData.password,
+        );
       } else {
-        // Singup
-        AuthService().singup(
+        // Signup
+        await AuthService().signup(
           formData.name,
           formData.email,
           formData.password,
           formData.image,
         );
       }
-    } catch (e) {
-      // Tratar o erro
+    } catch (error) {
+      // Tratar erro!
     } finally {
+      if (!mounted) return;
       setState(() => _isLoading = false);
     }
   }
@@ -49,12 +54,13 @@ class _AuthPageState extends State<AuthPage> {
           ),
           if (_isLoading)
             Container(
-              decoration:
-                  const BoxDecoration(color: Color.fromRGBO(0, 0, 0, 50)),
+              decoration: const BoxDecoration(
+                color: Color.fromRGBO(0, 0, 0, 0.5),
+              ),
               child: const Center(
                 child: CircularProgressIndicator(),
               ),
-            )
+            ),
         ],
       ),
     );
