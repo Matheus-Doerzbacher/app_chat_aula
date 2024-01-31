@@ -13,7 +13,7 @@ class AuthMockService implements AuthService {
     imageURL: 'assets/images/avatar.png',
   );
 
-  static final Map<String, ChatUser> _users = {
+  static Map<String, ChatUser> _users = {
     _defaultUser.email: _defaultUser,
   };
   static ChatUser? _currentUser;
