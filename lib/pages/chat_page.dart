@@ -1,5 +1,6 @@
 import 'package:app_chat_aula/components/messages.dart';
 import 'package:app_chat_aula/components/new_message.dart';
+import 'package:app_chat_aula/models/chat_notification.dart';
 import 'package:app_chat_aula/pages/notification_page.dart';
 import 'package:app_chat_aula/service/auth/auth_service.dart';
 import 'package:app_chat_aula/service/notification/chat_notification_service.dart';
@@ -67,7 +68,7 @@ class ChatPage extends StatelessWidget {
                 top: 5,
                 right: 8,
                 child: CircleAvatar(
-                  maxRadius: 8,
+                  maxRadius: 10,
                   backgroundColor: Colors.red.shade700,
                   child: Text(
                     '${Provider.of<ChatNotificationService>(context).itemsCount}',
