@@ -17,8 +17,11 @@ dependencies:
   cloud_firestore: ^4.15.0
   firebase_auth: ^4.17.0
   firebase_core: ^2.25.0
+<<<<<<< HEAD
   firebase_storage: ^11.6.1
   firebase_messaging: ^14.7.11
+=======
+>>>>>>> parent of bdb56ec (Final da aula 400)
 
 dev_dependencies:
   flutter_test:
